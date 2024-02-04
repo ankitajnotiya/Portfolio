@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!--=============== BOXICONS ===============-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+
+        <!--=============== CSS ===============-->
+
+        <title>Responsive bottom navigation</title>\
+        <style type="text/css">
+
+          /*=============== GOOGLE FONTS ===============*/
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap");
+
+/*=============== VARIABLES CSS ===============*/
+:root {
+  --header-height: 3rem;
+
+  /*========== Colors ==========*/
+  --hue: 174;
+  --sat: 63%;
+  --first-color: hsl(var(--hue), var(--sat), 40%);
+  --first-color-alt: hsl(var(--hue), var(--sat), 36%);
+  --title-color: hsl(var(--hue), 12%, 15%);
+  --text-color: hsl(var(--hue), 8%, 35%);
+  --body-color: hsl(var(--hue), 100%, 99%);
+  --container-color: #FFF;
+
+  /*========== Font and typography ==========*/
+  --body-font: 'Open Sans', sans-serif;
+  --h1-font-size: 1.5rem;
+  --normal-font-size: .938rem;
+  --tiny-font-size: .625rem;
+
+  /*========== z index ==========*/
+  --z-tooltip: 10;
+  --z-fixed: 100;
+}
+
+
+@media screen and (min-width: 968px) {
+  :root {
+    --h1-font-size: 2.25rem;
+    --normal-font-size: 1rem;
+  }
+}
+
+/*=============== BASE ===============*/
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: var(--header-height) 0 0 0;
+  font-family: var(--body-font);
+  font-size: var(--normal-font-size);
+  background-color:lightgreen;
+  color: var(--text-color);
+
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/*=============== REUSABLE CSS CLASSES ===============*/
+.section {
+  padding: .5rem 0 2rem;
+}
+
+.section__title {
+  font-size: var(--h1-font-size);
+  color: var(--title-color);
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+
+.typewriter h1 {
+  overflow: hidden; /* Hide overflow content */
+  border-right: 2px solid #000; /* Add a border for the cursor effect */
+  white-space: nowrap; /* Keep the text in one line */
+  margin: 0; /* Remove default margin */
+  font-size: 24px;
+  animation: typewriter 1s steps(22) 1s forwards; /* Animation properties */
+}
+
+@keyframes typewriter {
+  from {
+    width: 0; /* Start with no width */
+  }
+  to {
+    width: 100%; /* End with full width */
+  }
+}
+
+
+/*=============== LAYOUT ===============*/
+.container {
+  max-width: 968px;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  
+}
+
+/*=============== HEADER ===============*/
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--container-color);
+  z-index: var(--z-fixed);
+  transition: .4s;
+}
+
+/*=============== NAV ===============*/
+.nav {
+  height: var(--header-height);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav__img {
+  width: 32px;
+  border-radius: 50%;
+}
+
+.nav__logo {
+  color: var(--title-color);
+  font-weight: 600;
+}
+
+* {
+  box-sizing: border-box;
+}
+.education {
+  width: min(500px, 95vw);
+  margin-left: 20px;
+}
+.education__heading {
+  padding-inline-start: 4rem;
+}
+.education__heading h4 {
+  font-size: 2rem;
+  margin-block: 0.5rem;
+}
+.education__content {
+  position: relative;
+  padding: 1rem 1rem 1rem 4rem;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+.education__content h5 {
+  color: rgba(0, 0, 0, 0.9);
+  font-size: 1rem;
+  margin-block: 0;
+}
+.education__content p {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 0.9rem;
+  margin-block-start: 0.5rem;
+  margin-block-end: 0;
+}
+.education__content .year {
+  position: absolute;
+  content: var(--year);
+  width: 2rem;
+  aspect-ratio: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.6rem;
+  color: white;
+  border-radius: 50%;
+  background-color: #333;
+  box-shadow: inset 0 0 0 1px white;
+  border: 1px solid #333;
+  left: 1rem;
+  top: 0.74rem;
+}
+.education__content:hover {
+  background-color: rgba(230, 230, 230, 0.48);
+  border-radius: 0.25rem;
+}
+.education__content:not(:last-child):before {
+  position: absolute;
+  content: "";
+  width: 4px;
+  background-color: #333;
+  left: calc(2rem - 2px);
+  top: 2.74rem;
+  bottom: -0.74rem;
+  z-index: 1;
+  
+}
+
+@media screen and (max-width: 767px) {
+  .nav__menu {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: var(--container-color);
+    box-shadow: 0 -1px 12px hsla(var(--hue), var(--sat), 15%, 0.15);
+    width: 100%;
+    height: 4rem;
+    padding: 0 1rem;
+    display: grid;
+    align-content: center;
+    border-radius: 1.25rem 1.25rem 0 0;
+    transition: .4s;
+  }
+}
+
+.nav__list, 
+.nav__link {
+  display: flex;
+}
+
+.nav__link {
+  flex-direction: column;
+  align-items: center;
+  row-gap: 4px;
+  color: var(--title-color);
+  font-weight: 600;
+}
+
+.nav__list {
+  justify-content: space-around;
+}
+
+.nav__name {
+  font-size: var(--tiny-font-size);
+  /* display: none;*/ /* Minimalist design, hidden labels */
+}
+
+.nav__icon {
+  font-size: 1.5rem;
+}
+
+/*Active link*/
+.active-link {
+  position: relative;
+  color: var(--first-color);
+  transition: .3s;
+}
+
+/* Minimalist design, active link */
+/* .active-link::before{
+  content: '';
+  position: absolute;
+  bottom: -.5rem;
+  width: 4px;
+  height: 4px;
+  background-color: var(--first-color);
+  border-radius: 50%;
+} */
+
+/* Change background header */
+.scroll-header {
+  box-shadow: 0 1px 12px hsla(var(--hue), var(--sat), 15%, 0.15);
+}
+
+/*=============== MEDIA QUERIES ===============*/
+/* For small devices */
+/* Remove if you choose, the minimalist design */
+@media screen and (max-width: 320px) {
+  .nav__name {
+    display: none;
+  }
+}
+
+/* For medium devices */
+@media screen and (min-width: 576px) {
+  .nav__list {
+    justify-content: center;
+    column-gap: 3rem;
+  }
+}
+
+@media screen and (min-width: 767px) {
+  body {
+    margin: 0;
+  }
+  .section {
+    padding: 7rem 0 2rem;
+  }
+  .nav {
+    height: calc(var(--header-height) + 1.5rem); /* 4.5rem */
+  }
+  .nav__img {
+    display: none;
+  }
+  .nav__icon {
+    display: none;
+  }
+  .nav__name {
+    font-size: var(--normal-font-size);
+    /* display: block; */ /* Minimalist design, visible labels */
+  }
+  .nav__link:hover {
+    color: var(--first-color);
+  }
+
+  /* First design, remove if you choose the minimalist design */
+  .active-link::before {
+    content: '';
+    position: absolute;
+    bottom: -.75rem;
+    width: 4px;
+    height: 4px;
+    background-color: var(--first-color);
+    border-radius: 50%;
+  }
+
+  /* Minimalist design */
+  /* .active-link::before{
+      bottom: -.75rem;
+  } */
+}
+
+/* For large devices */
+@media screen and (min-width: 1024px) {
+  .container {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+          img{
+          border-radius:100%;
+          border:15px;
+          border-color:pink;
+          border: solid;
+          }
+          div{
+          justify-content:center;
+          align-items:center;
+          }
+          
+          
+          .bgimage {
+              height:900px;
+              background: url('ankit.png');
+                  background-size:cover;
+                  position:relative;
+              }
+            .hero_title {
+                  font-size: 1.5rem;
+              
+             }
+             .hero_desc {
+                 font-size: 1rem;
+             
+             }
+             .hero-text {
+                 text-align: center;
+                 position: absolute;
+                 top: 25%;
+                 left: 50%;
+                 transform: translate(-50%, -50%);
+                 color: white;}
+                 .imageAboutPage {
+              width: 100%;
+          } 
+          .footer-col-5{
+                 position: absolute;
+                 width: 100%;
+                 color: black;
+          }                             
+           .servicesText.card {
+               height: 280px;
+               cursor: pointer;
+           }
+           .servicesIcon {
+               font-size: 36px;
+               text-align: center;
+               width: 100%;
+           }
+           .card-title {
+               text-align: center;
+           
+          }.card:hover .servicesIcon {
+              color: #008000;
+          }
+          .servicesText:hover {
+              border: 1px solid #008000;
+          
+          }
+
+          #myImg {
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#myImg:hover {opacity: 0.7;}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+/* Modal Content (image) */
+.modal-content {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+}
+
+/* Caption of Modal Image */
+#caption {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  text-align: center;
+  color: #ccc;
+  padding: 10px 0;
+  height: 150px;
+}
+
+/* Add Animation */
+.modal-content, #caption {  
+  animation-name: zoom;
+  animation-duration: 0.6s;
+}
+
+@keyframes zoom {
+  from {transform: scale(0.1)} 
+  to {transform: scale(1)}
+}
+
+/* The Close Button */
+.close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px){
+  .modal-content {
+    width: 100%;
+  }
+}
+
+          
+          {
+          font-size:20px;
+          color:black;
+          text-align:centre;
+          }
+           .topnav.responsive {position: relative;}
+          .topnav.responsive a.icon {
+            position: absolute;
+            right: 0;
+            top: 0; 
+             
+          img{
+          border-radius:100%;
+          border:10px solid red;
+          }
+          *{
+          margin:0;
+          padding:0;
+          background:pink;
+          }
+          
+          .wrapper
+          {
+          height:200px;
+          width:200px;
+          position:relative;
+          }
+          div{
+          display:flex;
+          justify-content:center;
+          align-items:center;
+          }
+
+          nav{
+flex:1;
+text-align:right;
+}
+nav ul{
+display:inline-block;
+list-style-type:none;
+}
+nav ul li{
+display:inline-block;
+margin-right:30px;
+}
+p{
+color:#555;
+}
+.container{
+max-width:1300px;
+margin:auto;
+padding-left:25px;
+padding-right:25px;
+}
+.row{
+display:flex;
+align-items:center;
+flex-wrap:wrap;
+justify-content:space-around;
+}
+.col-2{
+flex-basis:50%;
+min-width:300px;
+}
+.col-2 img{
+max-width:100%;
+padding:50px 0;
+}
+.col-2 h1{
+font-size:50px;
+line-height:60px;
+margin:25px 0;
+}
+.btn{
+display:inline-block;
+background:#ff523b;
+color:#fff;
+padding:8px 30px;
+margin:30px 0;
+border-radius:30px;
+}
+.header{
+background:radial-gradient(yellow,pink)
+}
+.header .row{
+margin-top:70px;
+}
+.categories{
+margin:70px 0;
+}
+.col-3{
+flex-basis:30%;
+min-width:250px;
+margin-bottom:30px;
+}
+.col-3 img{
+width:65%;
+}
+.small-container{
+max-width:1080px;
+margin:auto;
+padding-left:25px;
+padding-right:25px;
+}
+.col-4 p{
+font-weight:14px;
+}
+.rating fa{
+color:#ff523b;
+}
+.col-4:hover{
+transform:translate(-5px);
+}
+h2{
+color:red;
+}
+
+</style>
+
+    </head>
+    <body>
+        <!--=============== HEADER ===============-->
+        <header class="header" id="header">
+            <nav class="nav container">
+                <a href="#" class="nav__logo">Ankit Malviya</a>
+
+                <div class="nav__menu" id="nav-menu">
+                    <ul class="nav__list">
+                        <li class="nav__item">
+                            <a href="#home" class="nav__link active-link">
+                                <i class='bx bx-home-alt nav__icon'></i>
+                                <span class="nav__name">Home</span>
+                            </a>
+                        </li>
+                        
+                        <li class="nav__item">
+                            <a href="#about" class="nav__link">
+                                <i class='bx bx-user nav__icon'></i>
+                                <span class="nav__name">About</span>
+                            </a>
+                        </li>
+
+                        <li class="nav__item">
+                            <a href="#skills" class="nav__link">
+                                <i class='bx bx-book-alt nav__icon'></i>
+                                <span class="nav__name">Skills</span>
+                            </a>
+                        </li>
+                        
+                        <li class="nav__item">
+                          <a href="#eduction" class="nav__link">
+                              <i class='bx bx-message-square-detail nav__icon'></i>
+                              <span class="nav__name">Eduction</span>
+                          </a>
+                      </li>
+
+                        <li class="nav__item">
+                          <a href="#project" class="nav__link">
+                              <i class='bx bx-message-square-detail nav__icon'></i>
+                              <span class="nav__name">Project</span>
+                          </a>
+                      </li>
+
+                        <li class="nav__item">
+                            <a href="#contactme" class="nav__link">
+                                <i class='bx bx-message-square-detail nav__icon'></i>
+                                <span class="nav__name">Contact me</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <img src="assets/img/perfil.png" alt="" class="nav__img">
+            </nav>
+        </header>
+
+        <main>
+            <!--=============== HOME ===============-->
+                <h2 class="section__title">Home</h2>
+            <section class="bgimage" id="home">
+              <div class="container-fluid">
+                  <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 hero-text">
+                    <div class="typewriter">
+                  
+                      <h3 class="hero_title" style="font-size:45px">Hello,</h3>
+                  
+                      <h1 style="font-size:45px">I'm Ankit Malviya</h1>
+                      <marquee behavior="alternate" onmouseover="this.stop()" onmouseout="this.start()" bgcolor="black"><h1>Fronted Developer</h1></marquee><br>
+
+                      </div>
+      </div>
+      </div>
+      </div>
+      </section>
+
+      
+
+            <!--=============== ABOUT ===============-->
+            <section class="container section section__height" id="about">
+                <h2 class="section__title">About</h2>
+              <div class="container" style='font-size:30px'><br>
+                                      <b><h5 align="center"> Let me introduce myself. </h5></b>
+                  
+                
+      <div class="center" align="center">
+        <img src="11.jpeg" height="150" width="150">
+      </div>
+      
+                      
+                      <div class="container">
+                          <h6> A Internet of Things(Iot) B.Tech Student from Sagar Institute of Science Technology & Engineering.Experinced in Web Development.I am versed with Python,Html,Css,Javascript.
+                          </h6>
+                                    <a href="file:///C:/Users/91747/Downloads/Ankit%20Resume%20.pdf" class="btn-1 outer-shadow hover-in-shadow" target="next_page">Download Resume</a>
+  
+
+            <!--=============== SKILLS ===============-->
+            <section class="container section section__height" id="skills">
+                <h2 class="section__title">Skills</h2>
+            <div class="container" style='font-size:30px'>
+              <div class="skill"><br><br>
+                <label for="html">C++</label>
+                <input type="range" id="html" min="0" max="100" value="50">
+                <output for="html">35</output>
+<br>
+            
+              <label for="html">Python</label>
+                <input type="range" id="html" min="0" max="100" value="80">
+                <output for="html">65</output>
+              </div>
+                <label for="html">HTML</label>
+                <input type="range" id="html" min="0" max="100" value="80">
+                <output for="html">80</output>
+              </div>
+              <div class="skill">
+                <label for="css">CSS</label>
+                <input type="range" id="css" min="0" max="100" value="75">
+                <output for="css">55</output>
+              </div>
+              <div class="skill">
+                <label for="js">JavaScript</label>
+                <input type="range" id="js" min="0" max="100" value="60">
+                <output for="js">35</output>
+              </div>
+            </div>
+           
+                                      
+          </div>
+          </div>
+          </div>
+          </div>
+          </section><br><br>
+          
+
+           
+            <!--=============== Eduction ===============-->
+            <section class="containerr section section__height" id="eductio0n">
+              <h6 class="section_title">Eductioon</h6></section>
+
+              <!--=============== Eduction ===============-->
+            <section class="container section section__height" id="eduction">
+              <h2 class="section__title">Eduction</h2>
+            
+            <div class='education'>
+              <div class='education__heading'>
+              </div>
+              <div class='education__content'>
+                <h5>SAGAR INSTITUE OF SCIENCE TECHNOLOGY & Engineering SIKANDRABAD,NEAR RATIBAD BHOPAL MADHYA PRADESH</h5>
+                <span class='year'>2025</span>
+                <p>Currently pursuing B.tech Degree Specialization in Internet of Things.</p>
+              </div>
+              <div class='education__content'>
+                <h5>SCHOOLING(12TH)</h5>
+                <span class='year'>2021</span>
+                <p>Shastri Smariti Vidhya Mandir Higher Secondary School Ashta Dist Sehore Madhya Pradesh</p>
+              </div>
+              <div class='education__content'>
+                <h5>SCHOOLING(10TH)</h5>
+                <span class='year'>2019</span>
+                <p>Shastri Smariti Vidhya Mandir Higher Secondary School Ashta Dist Sehore Madhya Pradesh</p>
+              </div>
+              
+          </section>
+
+            <!--=============== Project ===============-->
+            <section class="container section section__height" id="project">
+              <h2 class="section__title">Project</h2>
+              <marquee behavior="alternate" onmouseover="this.stop()" onmouseout="this.start()" bgcolor="#FFFAF0
+"><h1>E-Commerce Website</h1></marquee><br>
+        
+              <p>
+
+              <img id="myImg" src="eco.jpg"  width="150px" height="110px"><br>
+              <a href="https://ankitajnotiya.github.io/E-Commerce/" >Source Code</a>
+              
+            </div>
+
+              <h5>Description:Learn how to add a shopping cart page to your eCommerce application using JavaScript, HTML, and CSS in this concise tutorial.
+                 Discover the power of event listeners as we guide you through implementing functionality for adding items, updating quantities, and removing products.
+                  Gain a deep understanding of event delegation and propagation, enabling you to create a seamless shopping experience. 
+              </h5>
+              <div class="text-box">
+        
+              <!-- The Modal -->
+              <div id="myModal" class="modal">
+                <span class="close">&times;</span>
+                <img class="modal-content" id="img01">
+                <div id="caption"></div>
+              </div><br>
+              <marquee behavior="alternate" onmouseover="this.stop()" onmouseout="this.start()" bgcolor="#FFFAF0
+              "><h1>Startups-Ayush-Portal</h1></marquee><br>
+
+              <img id="myImg" src="img1.jpg"  width="150px" height="110px"><br>
+                 <a href="https://ankitajnotiya.github.io/Startups-Ayush-Portal/">Source Code</a>
+
+
+
+              <h5>Description:The key objective of the Startup AYUSH portal is to be a one-stop platform for all stakeholders 
+                (Startups, Investors, Incubators, Accelerators, Government Agencies, and Public Users) in the AYUSH system to interact 
+                and collaborate in a highly dynamic environment. The portal is directed to provide a collaborative platform for all the stakeholders 
+                of the AYUSH startups to have an interactive engagement to enhance and bolster the network.
+              </h5>
+              <br>
+
+              
+              <marquee behavior="alternate" onmouseover="this.stop()" onmouseout="this.start()" bgcolor="#FFFAF0
+              "><h1>Netflix-Clone</h1></marquee><br>
+
+              <img id="myImg" src="img2.png" alt="Northern Lights, Norway" width="110px" height="50px">
+
+
+        <h5> Description:We create a Netflix landing Page Clone using HTML, CSS, and JavaScript With Source Code. this is a responsive clone of Netflix Clone Including the Whole Website not only the landing page.
+
+        </h5>
+        <a href="https://ankitajnotiya.github.io/Netflix--Clone/">Source Code</a>
+
+              <!-- The Modal -->
+              <div id="myModal" class="modal">
+                <span class="close">&times;</span>
+                <img class="modal-content" id="img01">
+                <div id="caption"></div>
+              </div>
+              
+
+              
+            
+            </section>
+          
+
+            <!--=============== CONTACTME ===============-->
+            <section class="container section section__height" id="contactme">
+                <h2 class="section__title">Contact me</h2>
+                <div class="container">
+                  <form action="">
+                    <div class="form-center" align="center">
+                  <label for ="Name" >Name</label>
+                  <input type="text" id="Name" placeholder="Enter your Name"></label><br><br>
+                   <label for ="Email">Email</label>
+                    <input type="text" id="email" placeholder="Enter your email"></label><br><br>
+                   <label for="password">Password</label>
+                   <input type="password" id="password" placeholder="Enter your password"></label><br><br>
+                  <label for="Name">Contact Number</label>
+                   <input type="text" id="Subject" placeholder="Enter your Contact Number"></label><br><br>
+                  <label for="message">Message</label>
+                   <input type="text" id="message" placeholder="Enter your message"></label><br><br>
+                 <input type="button" value="submit" onclick="Send()">
+                </div>
+                  </form>
+                  </div>
+                 
+              </section>
+                     
+          </main>
+          <br><br>
+  
+                
+        
+
+        <!--Footer1(start)-->
+        <div class="footer-col-5">
+        <table id="footer" border="0" width="100%"
+          cellpadding="0" cellspacing="0" bgcolor="red">
+          <tr>
+            <td>
+              <table border="0" cellpadding="55"
+                cellspacing="0" width="100%" align="center">
+                <tr>
+                  <td width="23%" valign="top">
+                    <b>LinkedIn</b>
+                    <a href="https://www.linkedin.com/posts/ankit-malviya-16650225b" style="text-decoration:none">
+                      ➲
+                    </a>
+                  </td>
+      
+                  <td>
+                    |
+                  </td>
+      
+                  <td width="23%" valign="top">
+                    <b>GitHub</b>
+                    <a href="https://github.com/ankitajnotiya" style="text-decoration:none">
+                      ➲ 
+                    </a>
+                  </td>
+      
+                  <td>
+                    |
+                  </td>
+      
+      
+                  <td width="23%" valign="top">
+                    <b>Hackerrank</b>
+                    <a href="https://www.hackerrank.com/profile/ankitajnotiya" style="text-decoration:none">
+                      ➲
+                    </a>
+                  </td>
+      
+                  <td>
+                    |
+                  </td>
+                  
+                  <td width="33%" valign="buttom">
+                    <b align="centre">GFG</b>
+                    <a href="https://auth.geeksforgeeks.org/user/ankitma" style="text-decoration:none">
+                      ➲
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+            <td width="23%" valign="top">
+              <b>Instagram</b>
+              <a href="https://www.instagram.com/" style="text-decoration:none">
+                ➲
+              </a>
+            </td>
+
+            <td>
+              |
+            </td>
+
+
+          </tr>
+        </table>
+      </div>
+      
+     
+    </body>
+</html>
